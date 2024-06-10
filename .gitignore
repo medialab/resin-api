@@ -61,6 +61,7 @@ cover/
 local_settings.py
 data/
 uploads/
+static/
 
 # Flask stuff:
 instance/

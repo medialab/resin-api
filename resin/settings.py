@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("RESIN_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("RESIN_DEBUG", "True").lower() in ("true", "1")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ.get("RESIN_HOST", "localhost")]
 CORS_ALLOW_ALL_ORIGINS = True
 
 
@@ -116,7 +116,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "static"
 MEDIA_URL = "uploads/"
 MEDIA_ROOT = BASE_DIR / "uploads"
 
