@@ -1,0 +1,46 @@
+# Ce fichier est un exemple de déploiement possible de resin-api.
+#
+# En résumé :
+# - Le serveur exposé publiquement doit servir /uploads/* et /static/* depuis
+#   respectivement les dossiers /app/uploads et /app/static du conteneur Django
+# - Le serveur doit rediriger toutes les autres requêtes vers le conteneur Django
+
+
+services:
+  django:
+    build: .
+    volumes:
+      - database:/app/data # where the sqlite database will be stored (it should be backed up)
+      - uploads:/app/uploads # user uploads, will be shared with the caddy server (it should be backed up)
+      - staticfiles:/app/static # will be shared with the caddy server, rebuilt on every deployment
+  caddy:
+    image: caddy:latest
+    volumes:
+      - uploads:/app/uploads
+      - staticfiles:/app/static
+    command: |
+      caddy run -c - <<EOF
+      resin.domain  {
+            http_port 80
+            https_port 443
+            email contact@resin.com
+      
+            handle_path /static/* {
+              root /app/static
+              file_server
+            }
+      
+            handle_path /uploads/* {
+              root /app/uploads
+              file_server
+            }
+      
+            reverse_proxy django:8000
+      }
+      
+    
+
+volumes:
+  uploads:
+  database:
+  staticfiles:
