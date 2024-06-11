@@ -124,3 +124,20 @@ MEDIA_ROOT = BASE_DIR / "uploads"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Emails
+EMAIL_BACKEND = (
+    "django.core.mail.backends.console.EmailBackend"
+    if DEBUG
+    else "django.core.mail.backends.smtp.EmailBackend"
+)
+EMAIL_HOST = os.environ.get("RESIN_EMAIL_HOST", "localhost")
+EMAIL_PORT = os.environ.get("RESIN_EMAIL_PORT", 25)
+EMAIL_USE_TLS = os.environ.get("RESIN_EMAIL_TLS", "False").lower() in ("true", "1")
+EMAIL_USE_SSL = os.environ.get("RESIN_EMAIL_SSL", "False").lower() in ("true", "1")
+EMAIL_HOST_USER = os.environ.get("RESIN_EMAIL_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("RESIN_EMAIL_PASSWORD", "")
+EMAIL_FROM = os.environ.get("RESIN_EMAIL_FROM", "admin@localhost")
+EMAIL_SSL_CERTFILE = os.environ.get("RESIN_EMAIL_SSL_CERTFILE", None)
+EMAIL_SSL_KEYFILE = os.environ.get("RESIN_EMAIL_SSL_KEYFILE", None)
+EMAIL_ADMIN = os.environ.get("RESIN_EMAIL_ADMIN", "admin@localhost")

@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.core.mail import send_mail
+from django.urls import reverse
 from rest_framework import viewsets, permissions, mixins
 
 from annuaire.models import Member, LanguageChoice, SkillChoice
@@ -39,3 +42,23 @@ class MemberViewSet(viewsets.ModelViewSet):
     queryset = Member.objects.filter(reviewed=True)
     serializer_class = MemberSerializer
     permission_classes = [MemberPermissions]
+
+    def perform_create(self, serializer):
+        super().perform_create(serializer)
+        admin_link = self.request.build_absolute_uri(
+            reverse("admin:annuaire_member_change", args=[serializer.instance.pk])
+        )
+        send_mail(
+            "Nouvelle inscription sur l'annuaire RésIn",
+            f"\
+            Une nouvelle inscription a été enregistrée sur l'annuaire RésIn !\n\
+            Validation : {admin_link}\
+            ",
+            settings.EMAIL_FROM,
+            [settings.EMAIL_ADMIN],  # TODO : change this to the actual admin email
+            fail_silently=False,
+            html_message=f"\
+            <p>Une nouvelle inscription a été enregistrée sur l'annuaire RésIn !</p>\
+            <p>Validation : <a href='{admin_link}'>{admin_link}</a></p>\
+            ",
+        )
