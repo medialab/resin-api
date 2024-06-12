@@ -1,0 +1,9 @@
+Bonjour,
+
+Vous pouvez éditer votre profil sur l'annuaire RésIn grâce à ce lien : {{ auth_link }}
+Attention, ce dernier n'est valable que 24h.
+
+N'hésitez pas à nous contacter pour toute information
+
+Merci et à bientôt,
+L'équipe de l'annuaire RésIn

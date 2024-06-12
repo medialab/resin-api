@@ -20,11 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("RESIN_SECRET")
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("RESIN_DEBUG", "True").lower() in ("true", "1")
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = "dummysecret" if DEBUG else os.environ.get("RESIN_SECRET")
 
 ALLOWED_HOSTS = [os.environ.get("RESIN_HOST", "localhost")]
 CORS_ALLOW_ALL_ORIGINS = True
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
     "corsheaders",
     "annuaire.apps.AnnuaireConfig",
 ]
@@ -86,6 +87,7 @@ DATABASES = {
     }
 }
 
+# Auth
 
 AUTH_USER_MODEL = "annuaire.Member"
 AUTH_PASSWORD_VALIDATORS = [
@@ -102,7 +104,15 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "annuaire.auth.TokenExpirationAuthentication",
+    ]
+}
+EDIT_PROFILE_URL = os.environ.get(
+    "RESIN_EDIT_PROFILE_URL", "http://localhost:3000/profile"
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

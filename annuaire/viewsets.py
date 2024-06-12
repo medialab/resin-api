@@ -1,14 +1,22 @@
+import urllib.parse
+
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.crypto import constant_time_compare
 from rest_framework import viewsets, permissions, mixins
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import action
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.response import Response
 
 from annuaire.models import Member, LanguageChoice, SkillChoice
 from annuaire.serializers import (
     MemberSerializer,
     LanguageChoiceSerializer,
     SkillChoiceSerializer,
+    MemberAuthLinkRequestSerializer,
 )
 
 
@@ -38,6 +46,9 @@ class MemberPermissions(permissions.BasePermission):
             and request.user.is_authenticated
         )
 
+    def has_object_permission(self, request, view, obj):
+        return obj == request.user or request.user.is_staff
+
 
 class MemberViewSet(viewsets.ModelViewSet):
     queryset = Member.objects.filter(reviewed=True)
@@ -63,3 +74,61 @@ class MemberViewSet(viewsets.ModelViewSet):
                 {"admin_link": admin_link},
             ),
         )
+
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+        send_mail(
+            "Mise à jour de votre profil sur l'annuaire RésIn",
+            render_to_string(
+                "annuaire/emails/update_member.txt",
+                {},
+            ),
+            settings.EMAIL_FROM,
+            [settings.EMAIL_ADMIN],  # TODO : change this to the actual admin email
+            fail_silently=False,
+            html_message=render_to_string(
+                "annuaire/emails/update_member.html",
+                {},
+            ),
+        )
+
+    @action(
+        detail=False, methods=["post"], serializer_class=MemberAuthLinkRequestSerializer
+    )
+    def new_auth_link(self, request):
+        serializer = MemberAuthLinkRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        try:
+            user = Member.objects.get(email=serializer.validated_data["email"])
+        except Member.DoesNotExist:
+            raise PermissionDenied(
+                "L'adresse email ou l'année de naissance est invalide"
+            )
+        if not constant_time_compare(
+            user.birth_year, serializer.validated_data["birth_year"]
+        ):
+            raise PermissionDenied(
+                "L'adresse email ou l'année de naissance est invalide"
+            )
+
+        token = Token.objects.create(user=user)
+        link = (
+            settings.EDIT_PROFILE_URL
+            + "?"
+            + urllib.parse.urlencode({"uid": user.pk, "token": token})
+        )
+        send_mail(
+            "Lien d'authentification pour l'annuaire RésIn",
+            render_to_string(
+                "annuaire/emails/send_auth_link.txt",
+                {"auth_link": link},
+            ),
+            settings.EMAIL_FROM,
+            [user.email],
+            fail_silently=False,
+            html_message=render_to_string(
+                "annuaire/emails/send_auth_link.html",
+                {"auth_link": link},
+            ),
+        )
+        return Response({"detail": "Email envoyé avec succès"})
