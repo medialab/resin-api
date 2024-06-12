@@ -1,0 +1,2 @@
+Une nouvelle inscription a été enregistrée sur l'annuaire RésIn !
+Validation : {{ admin_link }}

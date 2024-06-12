@@ -23,6 +23,7 @@ class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         fields = [
+            "id",
             "first_name",
             "last_name",
             "birth_year",
@@ -42,3 +43,15 @@ class MemberSerializer(serializers.ModelSerializer):
             "training",
             "comments",
         ]
+        read_only_fields = ["id"]
+
+
+class MemberAuthLinkRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField(
+        label="Adresse email renseignée lors de l'inscription"
+    )
+    birth_year = serializers.IntegerField(
+        label="Année de naissance renseignée lors de l'inscription",
+        min_value=1900,
+        max_value=2020,
+    )
