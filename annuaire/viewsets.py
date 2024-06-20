@@ -54,6 +54,9 @@ class MemberViewSet(viewsets.ModelViewSet):
     queryset = Member.objects.filter(reviewed=True)
     serializer_class = MemberSerializer
     permission_classes = [MemberPermissions]
+    admin_recipients = Member.objects.filter(is_admin=True).values_list(
+        "email", flat=True
+    )
 
     def perform_create(self, serializer):
         super().perform_create(serializer)
@@ -67,7 +70,7 @@ class MemberViewSet(viewsets.ModelViewSet):
                 {"admin_link": admin_link},
             ),
             settings.EMAIL_FROM,
-            [settings.EMAIL_ADMIN],  # TODO : change this to the actual admin email
+            self.admin_recipients,
             fail_silently=False,
             html_message=render_to_string(
                 "annuaire/emails/create_member.html",
@@ -84,7 +87,7 @@ class MemberViewSet(viewsets.ModelViewSet):
                 {},
             ),
             settings.EMAIL_FROM,
-            [settings.EMAIL_ADMIN],  # TODO : change this to the actual admin email
+            self.admin_recipients,
             fail_silently=False,
             html_message=render_to_string(
                 "annuaire/emails/update_member.html",
