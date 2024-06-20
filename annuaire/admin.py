@@ -1,8 +1,11 @@
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
+from django.template.loader import render_to_string
 
 from annuaire.models import Member, LanguageChoice, SkillChoice
+from annuaire.utils import send_mail
 
 
 @admin.register(LanguageChoice)
@@ -82,6 +85,29 @@ class MemberAdmin(UserAdmin):
             },
         ),
     )
+
+    def save_model(self, request, obj, form, change):
+        if "reviewed" in form.changed_data and obj.reviewed:
+            profile_link = settings.PROFILE_URL + "/" + str(obj.pk)
+            send_mail(
+                "Validation de votre profil sur l'annuaire RésIn",
+                render_to_string(
+                    "annuaire/emails/reviewed_member.txt",
+                    {"profile_link": profile_link},
+                ),
+                settings.EMAIL_FROM,
+                [obj.email],
+                fail_silently=False,
+                html_message=render_to_string(
+                    "annuaire/emails/reviewed_member.html",
+                    {"profile_link": profile_link},
+                ),
+                reply_to_list=Member.objects.filter(is_admin=True).values_list(
+                    "email", flat=True
+                ),
+            )
+
+        return super().save_model(request, obj, form, change)
 
 
 admin.site.unregister(Group)

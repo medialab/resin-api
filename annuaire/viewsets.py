@@ -1,7 +1,6 @@
 import urllib.parse
 
 from django.conf import settings
-from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import constant_time_compare
@@ -18,6 +17,7 @@ from annuaire.serializers import (
     SkillChoiceSerializer,
     MemberAuthLinkRequestSerializer,
 )
+from annuaire.utils import send_mail
 
 
 class FieldChoiceViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -93,6 +93,7 @@ class MemberViewSet(viewsets.ModelViewSet):
                 "annuaire/emails/update_member.html",
                 {},
             ),
+            reply_to_list=self.admin_recipients,
         )
 
     @action(
@@ -133,5 +134,6 @@ class MemberViewSet(viewsets.ModelViewSet):
                 "annuaire/emails/send_auth_link.html",
                 {"auth_link": link},
             ),
+            reply_to_list=self.admin_recipients,
         )
         return Response({"detail": "Email envoyé avec succès"})

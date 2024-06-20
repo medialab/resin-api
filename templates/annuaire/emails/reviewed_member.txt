@@ -1,0 +1,12 @@
+Bonjour,
+
+Votre profil a bien été publié sur l'annuaire RésIn.
+Vous pouvez l'éditer à tout moment en vous rendant sur
+votre profil [{{ profile_link }}] et en cliquant sur
+"je suis cette personne, j'aimerais mettre à jour mon profil".
+
+Merci beaucoup pour l'intérêt que vous portez à notre initiative.
+N'hésitez pas à en parler autour de vous.
+
+Merci et à bientôt,
+L'équipe de l'annuaire RésIn
