@@ -33,7 +33,8 @@ class MemberSerializer(serializers.ModelSerializer):
             request.method == "GET"
             and request.user
             and request.user.is_authenticated
-            and request.user.id == self.instance.id
+            and "instance" in kwargs
+            and request.user.id == kwargs["instance"].id
         ):
             print("reached 2")
             self.fields["birth_year"].write_only = False
