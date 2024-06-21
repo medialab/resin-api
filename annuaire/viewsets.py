@@ -47,7 +47,12 @@ class MemberPermissions(permissions.BasePermission):
         )
 
     def has_object_permission(self, request, view, obj):
-        return obj == request.user or request.user.is_staff
+        return (
+            request.method in permissions.SAFE_METHODS
+            or request.method == "POST"
+            or obj == request.user
+            or request.user.is_staff
+        )
 
 
 class MemberViewSet(viewsets.ModelViewSet):

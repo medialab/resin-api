@@ -20,6 +20,24 @@ class MemberSerializer(serializers.ModelSerializer):
         label="Année de naissance", min_value=1900, max_value=2020, write_only=True
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        request = self.context.get("request")
+
+        print("reached")
+        print(request.method)
+        print(request.user)
+        # Show birth year to user if they are logged in
+        # and viewing their own profile
+        if (
+            request.method == "GET"
+            and request.user
+            and request.user.is_authenticated
+            and request.user.id == self.instance.id
+        ):
+            print("reached 2")
+            self.fields["birth_year"].write_only = False
+
     class Meta:
         model = Member
         fields = [
