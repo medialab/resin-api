@@ -2,7 +2,25 @@
 
 API et back-office pour [le site de Résin](https://github.com/medialab/resin-annuaire).
 
-## Installation
+## Développement
+
+Ce projet utilise [Poetry](https://python-poetry.org/) pour gérer ses dépendances.
+
+Pour installer les dépendances, et lancer le serveur, exécutez la commande suivante :
+
+```bash
+poetry install
+
+# lancer les migrations de la base de données
+poetry run python manage.py migrate
+# créer un superutilisateur
+poetry run python manage.py createsuperuser
+
+# lancer le serveur de développement
+poetry run python manage.py runserver
+```
+
+## Installation en production
 
 Ceci est une application [Django](https://www.djangoproject.com/). Elle peut être déployée
 [comme n'importe quelle application Django](https://docs.djangoproject.com/fr/5.0/howto/deployment/), avec

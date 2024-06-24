@@ -1,4 +1,5 @@
-# Ce fichier est un exemple de déploiement possible de resin-api.
+# Ce fichier est un exemple de déploiement possible de resin-api en production.
+# En développement vous ne devriez pas avoir besoin de Docker.
 #
 # En résumé :
 # - Le serveur exposé publiquement doit servir /uploads/* et /static/* depuis
