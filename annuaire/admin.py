@@ -81,7 +81,6 @@ class MemberAdmin(UserAdmin):
                     "additional_skills",
                     "publications",
                     "training",
-                    "comments",
                 )
             },
         ),

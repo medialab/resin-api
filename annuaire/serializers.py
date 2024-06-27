@@ -57,7 +57,6 @@ class MemberSerializer(serializers.ModelSerializer):
             "additional_skills",
             "publications",
             "training",
-            "comments",
         ]
         read_only_fields = ["id", "slug"]
 

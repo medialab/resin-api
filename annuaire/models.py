@@ -302,4 +302,3 @@ class Member(AbstractBaseUser):
     )
     publications = models.TextField("Publications", blank=True)
     training = models.TextField("Formations suivies", blank=True)
-    comments = models.TextField("Commentaires", blank=True)
