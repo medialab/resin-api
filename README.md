@@ -43,5 +43,8 @@ L'application utilise les variables d'environnement suivantes pour sa configurat
 * `RESIN_SECRET`: une chaîne de caractères aléatoire, utilisée pour chiffrer les cookies
 * `RESIN_HOST`: le nom de domaine de l'application
 
+`RESIN_EDIT_PROFILE_URL` et `RESIN_PROFILE_URL` doivent être définies pour que les liens de modification
+de profil et de visualisation de profil fonctionnent correctement. Ces variables sont décrites dans `.env.example`.
+
 Le moyen le plus simple de configurer ces variables d'environnement est de les définir dans un fichier
 `.env` à la racine du projet, qui sera copié dans le conteneur Docker lors du build.
