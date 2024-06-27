@@ -126,7 +126,7 @@ class SkillChoice(models.Model):
 
 
 class LanguageChoice(models.Model):
-    pt2b = models.CharField(max_length=3, primary_key=True)
+    pt2b = models.CharField(max_length=5, primary_key=True)
     name = models.CharField(max_length=255)
 
     def __str__(self):

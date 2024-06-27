@@ -1,3 +1,5 @@
+import json
+
 from django.apps import AppConfig
 from django.db import transaction
 from django.db.models.signals import post_migrate
@@ -21,14 +23,11 @@ def populate_choices(*args, **kwargs):
 
     # Fill database with languages choices
     from .models import LanguageChoice
-    import csv
 
-    with open("annuaire/langues.csv", "r") as f:
-        reader = csv.reader(f, delimiter="\t")
-        for row in reader:
-            if len(row) != 2:
-                continue
-            LanguageChoice.objects.update_or_create(pt2b=row[0][:3], name=row[1])
+    with open("annuaire/languages.json", "r") as f:
+        languages = json.load(f)
+        for code, name in languages.items():
+            LanguageChoice.objects.update_or_create(pt2b=code, name=name)
 
 
 class AnnuaireConfig(AppConfig):
