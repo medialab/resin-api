@@ -89,7 +89,7 @@ class MemberAdmin(UserAdmin):
 
     def save_model(self, request, obj, form, change):
         if "reviewed" in form.changed_data and obj.reviewed:
-            profile_link = settings.PROFILE_URL + "/" + str(obj.pk)
+            profile_link = settings.PROFILE_URL + "/" + str(obj.slug)
             send_mail(
                 "Validation de votre profil sur l'annuaire RésIn",
                 render_to_string(
