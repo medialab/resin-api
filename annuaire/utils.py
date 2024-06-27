@@ -1,4 +1,5 @@
 from django.core.mail import get_connection, EmailMultiAlternatives
+from django.utils.text import slugify
 
 
 def send_mail(
@@ -38,3 +39,13 @@ def send_mail(
         mail.attach_alternative(html_message, "text/html")
 
     return mail.send()
+
+
+def create_slug(first_name, last_name):
+    slug = slugify(f"{first_name} {last_name}")
+    from annuaire.models import Member
+
+    if Member.objects.filter(slug=slug).exists():
+        slug = f"{slug}-{Member.objects.filter(slug__startswith=slug).count() + 1}"
+
+    return slug

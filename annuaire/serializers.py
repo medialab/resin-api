@@ -24,9 +24,6 @@ class MemberSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
         request = self.context.get("request")
 
-        print("reached")
-        print(request.method)
-        print(request.user)
         # Show birth year to user if they are logged in
         # and viewing their own profile
         if (
@@ -36,13 +33,13 @@ class MemberSerializer(serializers.ModelSerializer):
             and "instance" in kwargs
             and request.user.id == kwargs["instance"].id
         ):
-            print("reached 2")
             self.fields["birth_year"].write_only = False
 
     class Meta:
         model = Member
         fields = [
             "id",
+            "slug",
             "first_name",
             "last_name",
             "birth_year",
@@ -62,7 +59,7 @@ class MemberSerializer(serializers.ModelSerializer):
             "training",
             "comments",
         ]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "slug"]
 
 
 class MemberAuthLinkRequestSerializer(serializers.Serializer):

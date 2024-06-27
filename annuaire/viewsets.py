@@ -17,7 +17,7 @@ from annuaire.serializers import (
     SkillChoiceSerializer,
     MemberAuthLinkRequestSerializer,
 )
-from annuaire.utils import send_mail
+from annuaire.utils import send_mail, create_slug
 
 
 class FieldChoiceViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -64,7 +64,12 @@ class MemberViewSet(viewsets.ModelViewSet):
     )
 
     def perform_create(self, serializer):
-        super().perform_create(serializer)
+        serializer.save(
+            slug=create_slug(
+                serializer.validated_data["first_name"],
+                serializer.validated_data["last_name"],
+            )
+        )
         admin_link = self.request.build_absolute_uri(
             reverse("admin:annuaire_member_change", args=[serializer.instance.pk])
         )

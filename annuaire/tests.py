@@ -54,6 +54,7 @@ class APIUserTestCase(APITestCase):
         self.assertEqual(Member.objects.count(), 1)
         self.assertEqual(Member.objects.get().first_name, "Maud")
         self.assertEqual(Member.objects.get().last_name, "Royer")
+        self.assertEqual(Member.objects.get().slug, "maud-royer")
         self.assertEqual(Member.objects.get().email, "bonjour@maudroyer.fr")
         self.assertEqual(Member.objects.get().birth_year, 1992)
         self.assertEqual(Member.objects.get().institution, "Université de La Villette")

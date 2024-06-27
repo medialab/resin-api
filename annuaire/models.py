@@ -6,6 +6,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import Q
 
+from annuaire.utils import create_slug
+
 custom_error_messages = {
     "blank": "Veuillez renseigner ce champ",
     "invalid": "Veuillez renseigner une adresse e-mail valide",
@@ -142,6 +144,7 @@ class MemberManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
             birth_year=birth_year,
+            slug=create_slug(first_name, last_name),
         )
         user.set_unusable_password()
         user.save()
@@ -153,6 +156,7 @@ class MemberManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
             birth_year=birth_year,
+            slug=create_slug(first_name, last_name),
         )
         user.set_password(password)
         user.is_admin = True
@@ -199,6 +203,7 @@ class Member(AbstractBaseUser):
         verbose_name_plural = "Membres"
 
     # DB Fields
+    slug = models.SlugField("Slug", unique=True)
     created_at = models.DateTimeField("Création", auto_now_add=True)
     updated_at = models.DateTimeField("Dernière modification", auto_now=True)
     reviewed = models.BooleanField("Profil validé", default=False)

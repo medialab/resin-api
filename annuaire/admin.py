@@ -46,6 +46,7 @@ class MemberAdmin(UserAdmin):
     ordering = ("is_admin", "-updated_at")
     filter_horizontal = ()
     autocomplete_fields = ("languages", "skills")
+    prepopulated_fields = {"slug": ("first_name", "last_name")}
 
     fieldsets = (
         (
