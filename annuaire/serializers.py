@@ -36,8 +36,8 @@ class MemberSerializer(serializers.ModelSerializer):
         # Resize photo to 1000px max width
         if photo:
             img = Image.open(photo)
-            if img.width > 1000:
-                img.thumbnail((1000, sys.maxsize))
+            if img.width > 1000 or img.height > 1000:
+                img.thumbnail((1000, 1000))
                 img_bytes = BytesIO()
                 img.save(img_bytes, format="JPEG")
                 img_bytes.seek(0)
