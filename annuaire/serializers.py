@@ -26,6 +26,8 @@ class MemberSerializer(serializers.ModelSerializer):
                 "Vous ne pouvez pas sélectionner plus de 6 compétences."
             )
 
+        return skills
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         request = self.context.get("request")
