@@ -20,6 +20,12 @@ class MemberSerializer(serializers.ModelSerializer):
         label="Année de naissance", min_value=1900, max_value=2020, write_only=True
     )
 
+    def validate_skills(self, skills):
+        if len(skills) > 6:
+            raise serializers.ValidationError(
+                "Vous ne pouvez pas sélectionner plus de 6 compétences."
+            )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         request = self.context.get("request")

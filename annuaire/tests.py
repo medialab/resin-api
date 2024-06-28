@@ -97,3 +97,15 @@ class APIUserTestCase(APITestCase):
             Member.objects.get().skills.last().pk,
             SkillChoice.objects.exclude(skill="").last().pk,
         )
+
+    def test_max_six_skills(self):
+        post_data = self.post_data.copy()
+        post_data["skills"] = [
+            SkillChoice.objects.exclude(skill="")[i].pk for i in range(7)
+        ]
+        response = self.client.post("/api/members/", post_data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(
+            response.json(),
+            {"skills": ["Vous ne pouvez pas sélectionner plus de 6 compétences."]},
+        )
