@@ -1,4 +1,8 @@
 from rest_framework import serializers
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
 
 from annuaire.models import Member, SkillChoice, LanguageChoice
 
@@ -27,6 +31,26 @@ class MemberSerializer(serializers.ModelSerializer):
             )
 
         return skills
+
+    def validate_photo(self, photo):
+        # Resize photo to 1000px max width
+        if photo:
+            img = Image.open(photo)
+            if img.width > 1000:
+                img.thumbnail((1000, sys.maxsize))
+                img_bytes = BytesIO()
+                img.save(img_bytes, format="JPEG")
+                img_bytes.seek(0)
+                photo = InMemoryUploadedFile(
+                    img_bytes,
+                    None,
+                    photo.name,
+                    "image/jpeg",
+                    img_bytes.tell(),
+                    None,
+                )
+
+        return photo
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
