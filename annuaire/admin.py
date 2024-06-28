@@ -63,6 +63,7 @@ class MemberAdmin(UserAdmin):
             "Profil annuaire",
             {
                 "fields": (
+                    "slug",
                     "reviewed",
                     "first_name",
                     "last_name",
