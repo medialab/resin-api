@@ -228,6 +228,7 @@ class Member(AbstractBaseUser):
         error_messages={
             "email": "Veuillez renseigner une adresse e-mail valide",
             "blank": "Veuillez renseigner ce champ",
+            "unique": "Cet email est déjà enregistré dans l'annuaire",
         },
         unique=True,
     )
