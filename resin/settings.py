@@ -27,6 +27,9 @@ DEBUG = os.environ.get("RESIN_DEBUG", "True").lower() in ("true", "1")
 SECRET_KEY = "dummysecret" if DEBUG else os.environ.get("RESIN_SECRET")
 
 ALLOWED_HOSTS = [os.environ.get("RESIN_HOST", "localhost")]
+RESIN_DOCKER_CONTAINER = os.environ.get("RESIN_DOCKER_CONTAINER")
+if RESIN_DOCKER_CONTAINER:
+    ALLOWED_HOSTS.append(RESIN_DOCKER_CONTAINER)
 CORS_ALLOW_ALL_ORIGINS = True
 
 
