@@ -10,9 +10,6 @@ WORKDIR /app
 # Install Poetry and gunicorn
 RUN pip install poetry gunicorn
 
-# Copy .env file to the container
-COPY .env /app
-
 # Add the current directory to the container as a working directory
 ADD . /app
 
