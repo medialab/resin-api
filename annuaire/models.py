@@ -238,7 +238,7 @@ class Member(AbstractBaseUser):
         choices=(
             ("F", "Femme"),
             ("M", "Homme"),
-            ("X", "Je ne me reconnais comme aucun des genres ci-dessus"),
+            ("X", "Aucun des genres ci-dessus"),
         ),
         max_length=100,
         help_text="Permettre d'afficher le genre sur les profils est un parti pris de l'équipe "
