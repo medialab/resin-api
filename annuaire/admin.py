@@ -103,9 +103,6 @@ class MemberAdmin(UserAdmin):
                     "annuaire/emails/reviewed_member.html",
                     {"profile_link": profile_link},
                 ),
-                reply_to_list=Member.objects.filter(is_admin=True).values_list(
-                    "email", flat=True
-                ),
             )
 
         return super().save_model(request, obj, form, change)

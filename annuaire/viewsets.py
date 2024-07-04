@@ -103,7 +103,6 @@ class MemberViewSet(viewsets.ModelViewSet):
                 "annuaire/emails/update_member.html",
                 {},
             ),
-            reply_to_list=self.admin_recipients,
         )
 
     @action(
@@ -144,6 +143,5 @@ class MemberViewSet(viewsets.ModelViewSet):
                 "annuaire/emails/send_auth_link.html",
                 {"auth_link": link},
             ),
-            reply_to_list=self.admin_recipients,
         )
         return Response({"detail": "Email envoyé avec succès"})
