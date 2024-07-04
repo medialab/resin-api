@@ -119,7 +119,7 @@ REST_FRAMEWORK = {
 EDIT_PROFILE_URL = os.environ.get(
     "RESIN_EDIT_PROFILE_URL", "http://localhost:3000/profile"
 )
-PROFILE_URL = os.environ.get("RESIN_PROFILE_URL", "http://localhost:3000/profile")
+PROFILE_URL = "https://" + RESIN_HOST + "/profile"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
