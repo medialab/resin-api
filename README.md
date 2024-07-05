@@ -1,4 +1,4 @@
-# resi-api
+# resin-api
 
 API et back-office pour [le site de Résin](https://github.com/medialab/resin-annuaire).
 
