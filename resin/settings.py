@@ -114,7 +114,11 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
         "annuaire.auth.TokenExpirationAuthentication",
-    ]
+    ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        *(["rest_framework.renderers.HTMLFormRenderer"] if DEBUG else []),
+    ],
 }
 EDIT_PROFILE_URL = os.environ.get(
     "RESIN_EDIT_PROFILE_URL", "http://localhost:3000/profile"
