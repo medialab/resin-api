@@ -117,7 +117,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
-        *(["rest_framework.renderers.HTMLFormRenderer"] if DEBUG else []),
+        *(["rest_framework.renderers.BrowsableAPIRenderer"] if DEBUG else []),
     ],
 }
 EDIT_PROFILE_URL = os.environ.get(
