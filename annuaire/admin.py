@@ -107,5 +107,8 @@ class MemberAdmin(UserAdmin):
 
         return super().save_model(request, obj, form, change)
 
+    class Media:
+        css = {"all": ("css/member_admin.css",)}
+
 
 admin.site.unregister(Group)
