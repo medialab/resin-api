@@ -48,3 +48,17 @@ de profil et de visualisation de profil fonctionnent correctement. Ces variables
 
 Le moyen le plus simple de configurer ces variables d'environnement est de les définir dans un fichier
 `.env` à la racine du projet, qui sera copié dans le conteneur Docker lors du build.
+
+## Mises à jour des listes de choix
+
+Les listes de languages et de compétences disponibles au choix des utilisateurs
+sont versionnées dans des fichiers JSON ou dans les fichiers de modèles.
+
+Pour mettre à jour ces listes, il suffit de modifier les fichiers correspondants.
+Nouveaux choix disponibles seront automatiquement pris en compte lors de la prochaine
+mise à jour de la base de données.
+
+À noter que les listes de choix précédemment enregistrées dans la base de données
+ne seront pas supprimées, même si elles ne sont plus disponibles dans les fichiers
+de modèles, afin de ne pas perdre de données utilisateurs.
+Il est possible de les supprimer manuellement depuis l'interface d'administration.
