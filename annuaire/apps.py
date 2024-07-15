@@ -27,7 +27,7 @@ def populate_choices(*args, **kwargs):
     with open("annuaire/languages.json", "r") as f:
         languages = json.load(f)
         for code, name in languages.items():
-            LanguageChoice.objects.update_or_create(pt2b=code, name=name)
+            LanguageChoice.objects.update_or_create(pt2b=code, defaults={"name": name})
 
 
 class AnnuaireConfig(AppConfig):
