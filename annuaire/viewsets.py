@@ -70,8 +70,10 @@ class MemberViewSet(viewsets.ModelViewSet):
                 serializer.validated_data["last_name"],
             )
         )
-        admin_link = self.request.build_absolute_uri(
-            reverse("admin:annuaire_member_change", args=[serializer.instance.pk])
+        admin_link = (
+            "https://"
+            + settings.RESIN_HOST
+            + reverse("admin:annuaire_member_change", args=[serializer.instance.pk])
         )
         send_mail(
             "Nouvelle inscription sur l'annuaire RésIn",
