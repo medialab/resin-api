@@ -232,6 +232,10 @@ class Member(AbstractBaseUser):
         },
         unique=True,
     )
+    display_email = models.BooleanField(
+        "J'accepte que mon adresse email soit publiée sur le site",
+        default=False,
+    )
     gender = models.CharField(
         "Genre",
         blank=True,

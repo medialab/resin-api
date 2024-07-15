@@ -69,6 +69,7 @@ class MemberAdmin(UserAdmin):
                     "last_name",
                     "birth_year",
                     "email",
+                    "display_email",
                     "gender",
                     "photo",
                     "languages",

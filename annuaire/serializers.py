@@ -20,9 +20,6 @@ class LanguageChoiceSerializer(serializers.ModelSerializer):
 
 
 class MemberSerializer(serializers.ModelSerializer):
-    birth_year = serializers.IntegerField(
-        label="Année de naissance", min_value=1900, max_value=2020, write_only=True
-    )
 
     def validate_skills(self, skills):
         if len(skills) > 6:
@@ -54,18 +51,29 @@ class MemberSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["email"].write_only = True
+        self.fields["birth_year"].write_only = True
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
         request = self.context.get("request")
 
-        # Show birth year to user if they are logged in
+        # Show birth year and email to user if they are logged in
         # and viewing their own profile
         if (
             request.method == "GET"
             and request.user
             and request.user.is_authenticated
-            and "instance" in kwargs
-            and request.user.id == kwargs["instance"].id
+            and request.user.id == instance.id
         ):
-            self.fields["birth_year"].write_only = False
+            ret["birth_year"] = instance.birth_year
+            ret["email"] = instance.email
+
+        # Show email if instance.display_email is True
+        if instance.display_email:
+            ret["email"] = instance.email
+
+        return ret
 
     class Meta:
         model = Member
@@ -91,6 +99,7 @@ class MemberSerializer(serializers.ModelSerializer):
             "training",
         ]
         read_only_fields = ["id", "slug"]
+        write_only_fields = ["birth_year", "email"]
 
 
 class MemberAuthLinkRequestSerializer(serializers.Serializer):
