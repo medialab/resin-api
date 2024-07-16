@@ -238,12 +238,14 @@ class Member(AbstractBaseUser):
     )
     gender = models.CharField(
         "Genre",
-        blank=True,
+        blank=False,
         choices=(
+            ("", "Je ne souhaite pas répondre"),
             ("F", "Femme"),
             ("M", "Homme"),
             ("X", "Aucun des genres ci-dessus"),
         ),
+        default="",
         max_length=100,
         help_text="Permettre d'afficher le genre sur les profils est un parti pris de l'équipe "
         "qui a développé l'annuaire. Cette démarche vise à favoriser la parité, en facilitant "
