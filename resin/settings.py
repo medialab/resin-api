@@ -121,7 +121,7 @@ REST_FRAMEWORK = {
     ],
 }
 EDIT_PROFILE_URL = os.environ.get(
-    "RESIN_EDIT_PROFILE_URL", "http://localhost:3000/profile"
+    "RESIN_EDIT_PROFILE_URL", "http://localhost:3000/s-inscrire"
 )
 PROFILE_URL = "https://" + RESIN_HOST + "/profile"
 
