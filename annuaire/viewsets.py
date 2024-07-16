@@ -4,6 +4,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import constant_time_compare
+from django.utils.safestring import mark_safe
 from rest_framework import viewsets, permissions, mixins
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
@@ -79,14 +80,14 @@ class MemberViewSet(viewsets.ModelViewSet):
             "Nouvelle inscription sur l'annuaire RésIn",
             render_to_string(
                 "annuaire/emails/create_member.txt",
-                {"admin_link": admin_link},
+                {"admin_link": mark_safe(admin_link)},
             ),
             settings.EMAIL_FROM,
             self.admin_recipients,
             fail_silently=False,
             html_message=render_to_string(
                 "annuaire/emails/create_member.html",
-                {"admin_link": admin_link},
+                {"admin_link": mark_safe(admin_link)},
             ),
         )
 
@@ -126,6 +127,7 @@ class MemberViewSet(viewsets.ModelViewSet):
                 "L'adresse email ou l'année de naissance est invalide"
             )
 
+        Token.objects.filter(user=user).delete()
         token = Token.objects.create(user=user)
         link = (
             settings.EDIT_PROFILE_URL
@@ -136,14 +138,14 @@ class MemberViewSet(viewsets.ModelViewSet):
             "Lien d'authentification pour l'annuaire RésIn",
             render_to_string(
                 "annuaire/emails/send_auth_link.txt",
-                {"auth_link": link},
+                {"auth_link": mark_safe(link)},
             ),
             settings.EMAIL_FROM,
             [user.email],
             fail_silently=False,
             html_message=render_to_string(
                 "annuaire/emails/send_auth_link.html",
-                {"auth_link": link},
+                {"auth_link": mark_safe(link)},
             ),
         )
         return Response({"detail": "Email envoyé avec succès"})
