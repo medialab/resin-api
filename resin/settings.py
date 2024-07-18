@@ -94,7 +94,7 @@ DATABASES = {
 }
 
 # Auth
-
+SESSION_COOKIE_PATH = "/admin/"
 AUTH_USER_MODEL = "annuaire.Member"
 AUTH_PASSWORD_VALIDATORS = [
     {
