@@ -238,7 +238,7 @@ class Member(AbstractBaseUser):
     )
     gender = models.CharField(
         "Genre",
-        blank=False,
+        blank=True,
         choices=(
             ("", "Je ne souhaite pas répondre"),
             ("F", "Femme"),
