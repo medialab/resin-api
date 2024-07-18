@@ -20,6 +20,9 @@ class LanguageChoiceSerializer(serializers.ModelSerializer):
 
 
 class MemberSerializer(serializers.ModelSerializer):
+    delete_photo = serializers.BooleanField(
+        write_only=True, required=False, default=False
+    )
 
     def validate_skills(self, skills):
         if len(skills) > 6:
@@ -54,6 +57,19 @@ class MemberSerializer(serializers.ModelSerializer):
         self.fields["email"].write_only = True
         self.fields["birth_year"].write_only = True
 
+    def update(self, instance, validated_data):
+        delete_photo = validated_data.pop("delete_photo", False)
+        photo = validated_data.get("photo")
+
+        if delete_photo:
+            instance.photo.delete()
+            instance.photo = None
+
+        if photo:
+            instance.photo = photo
+
+        return super().update(instance, validated_data)
+
     def to_representation(self, instance):
         ret = super().to_representation(instance)
         request = self.context.get("request")
@@ -86,6 +102,7 @@ class MemberSerializer(serializers.ModelSerializer):
             "gender",
             "email",
             "photo",
+            "delete_photo",
             "languages",
             "short_bio",
             "institution",
