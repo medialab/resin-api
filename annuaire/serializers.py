@@ -101,6 +101,7 @@ class MemberSerializer(serializers.ModelSerializer):
             "birth_year",
             "gender",
             "email",
+            "display_email",
             "photo",
             "delete_photo",
             "languages",
