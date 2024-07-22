@@ -57,6 +57,10 @@ class MemberSerializer(serializers.ModelSerializer):
         self.fields["email"].write_only = True
         self.fields["birth_year"].write_only = True
 
+    def create(self, validated_data):
+        del validated_data["delete_photo"]
+        return super().create(validated_data)
+
     def update(self, instance, validated_data):
         delete_photo = validated_data.pop("delete_photo", False)
         photo = validated_data.get("photo")
