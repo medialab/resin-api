@@ -100,7 +100,7 @@ class MemberViewSet(viewsets.ModelViewSet):
                 {},
             ),
             settings.EMAIL_FROM,
-            self.admin_recipients,
+            self.request.user.email,
             fail_silently=False,
             html_message=render_to_string(
                 "annuaire/emails/update_member.html",
