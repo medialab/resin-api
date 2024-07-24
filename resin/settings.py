@@ -28,6 +28,8 @@ SECRET_KEY = "dummysecret" if DEBUG else os.environ.get("RESIN_SECRET")
 
 RESIN_HOST = os.environ.get("RESIN_HOST", "localhost")
 
+RESIN_SCHEME = "https" if os.environ.get("RESIN_SSL", "false").lower() in ["true", "yes", "y", "1"] else "http"
+
 ALLOWED_HOSTS = [RESIN_HOST]
 RESIN_DOCKER_CONTAINER = os.environ.get("RESIN_DOCKER_CONTAINER")
 if RESIN_DOCKER_CONTAINER:
@@ -122,10 +124,8 @@ REST_FRAMEWORK = {
         *(["rest_framework.renderers.BrowsableAPIRenderer"] if DEBUG else []),
     ],
 }
-EDIT_PROFILE_URL = os.environ.get(
-    "RESIN_EDIT_PROFILE_URL", "http://localhost:3000/s-inscrire"
-)
-PROFILE_URL = "https://" + RESIN_HOST + "/profile"
+EDIT_PROFILE_URL = RESIN_SCHEME + "://" + RESIN_HOST + "/s-inscrire"
+PROFILE_URL = RESIN_SCHEME + "://" + RESIN_HOST + "/profile"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

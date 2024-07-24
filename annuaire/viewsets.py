@@ -72,7 +72,7 @@ class MemberViewSet(viewsets.ModelViewSet):
             )
         )
         admin_link = (
-            "https://"
+            settings.RESIN_SCHEME + "://"
             + settings.RESIN_HOST
             + reverse("admin:annuaire_member_change", args=[serializer.instance.pk])
         )
