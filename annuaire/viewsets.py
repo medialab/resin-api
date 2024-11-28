@@ -72,7 +72,8 @@ class MemberViewSet(viewsets.ModelViewSet):
             )
         )
         admin_link = (
-            settings.RESIN_SCHEME + "://"
+            settings.RESIN_SCHEME
+            + "://"
             + settings.RESIN_HOST
             + reverse("admin:annuaire_member_change", args=[serializer.instance.pk])
         )
@@ -80,14 +81,22 @@ class MemberViewSet(viewsets.ModelViewSet):
             "Nouvelle inscription sur l'annuaire RésIn",
             render_to_string(
                 "annuaire/emails/create_member.txt",
-                {"admin_link": mark_safe(admin_link)},
+                {
+                    "admin_link": mark_safe(admin_link),
+                    "first_name": serializer.validated_data["first_name"],
+                    "last_name": serializer.validated_data["last_name"],
+                },
             ),
             settings.EMAIL_FROM,
             self.admin_recipients,
             fail_silently=False,
             html_message=render_to_string(
                 "annuaire/emails/create_member.html",
-                {"admin_link": mark_safe(admin_link)},
+                {
+                    "admin_link": mark_safe(admin_link),
+                    "first_name": serializer.validated_data["first_name"],
+                    "last_name": serializer.validated_data["last_name"],
+                },
             ),
         )
 
