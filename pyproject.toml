@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "resin-api"
-version = "0.2.5"
+version = "0.3.0"
 description = ""
 authors = ["Maud Royer <hello@maudroyer.fr>"]
 readme = "README.md"
