@@ -236,6 +236,13 @@ class Member(AbstractBaseUser):
         "J'accepte que mon adresse email soit publiée sur le site",
         default=False,
     )
+    pronouns = models.CharField(
+        blank=True,
+        help_text="Ce champ sera affiché après votre nom entre parenthèses "
+        "si vous l'avez rempli. Exemple : Dominique Dupont (elle).",
+        max_length=100,
+        verbose_name="Pronoms",
+    )
     gender = models.CharField(
         "Genre",
         blank=True,
@@ -247,9 +254,8 @@ class Member(AbstractBaseUser):
         ),
         default="",
         max_length=100,
-        help_text="Permettre d'afficher le genre sur les profils est un parti pris de l'équipe "
-        "qui a développé l'annuaire. Cette démarche vise à favoriser la parité, en facilitant "
-        "la recherche de profils féminins. ",
+        help_text="Ce champ n'apparaîtra pas sur votre page. "
+        "Indiquer votre genre permet à l'annuaire de faciliter la recherche de profils féminins."
     )
     photo = models.ImageField("Photo", upload_to="photos/", blank=True)
     languages = models.ManyToManyField(

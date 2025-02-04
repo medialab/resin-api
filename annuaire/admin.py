@@ -71,6 +71,7 @@ class MemberAdmin(UserAdmin):
                     "email",
                     "display_email",
                     "gender",
+                    "pronouns",
                     "photo",
                     "languages",
                     "short_bio",

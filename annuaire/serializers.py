@@ -104,6 +104,7 @@ class MemberSerializer(serializers.ModelSerializer):
             "last_name",
             "birth_year",
             "gender",
+            "pronouns",
             "email",
             "display_email",
             "photo",
@@ -131,5 +132,5 @@ class MemberAuthLinkRequestSerializer(serializers.Serializer):
     birth_year = serializers.IntegerField(
         label="Année de naissance renseignée lors de l'inscription",
         min_value=1900,
-        max_value=2020,
+        max_value=2025,
     )
