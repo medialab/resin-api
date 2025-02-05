@@ -125,7 +125,7 @@ REST_FRAMEWORK = {
     ],
 }
 EDIT_PROFILE_URL = RESIN_SCHEME + "://" + RESIN_HOST + "/s-inscrire"
-PROFILE_URL = RESIN_SCHEME + "://" + RESIN_HOST + "/profile"
+PROFILE_URL = RESIN_SCHEME + "://" + RESIN_HOST
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
