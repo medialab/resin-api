@@ -1,7 +1,7 @@
 Bonjour,
 
 Votre profil dans l'annuaire RésIn a été validé.
-Il sera visible en ligne d'ici quelques minutes.
+Il sera visible en ligne dans l'heure qui vient.
 Vous pouvez l'éditer à tout moment en vous rendant sur
 votre profil [{{ profile_link }}] et en cliquant sur
 "je suis cette personne, j'aimerais mettre à jour mon profil".
