@@ -255,7 +255,7 @@ class Member(AbstractBaseUser):
         default="",
         max_length=100,
         help_text="Ce champ n'apparaîtra pas sur votre page. "
-        "Indiquer votre genre permet à l'annuaire de faciliter la recherche de profils féminins."
+        "Indiquer votre genre permet à l'annuaire de faciliter la recherche de profils féminins.",
     )
     photo = models.ImageField("Photo", upload_to="photos/", blank=True)
     languages = models.ManyToManyField(
@@ -266,7 +266,9 @@ class Member(AbstractBaseUser):
     short_bio = models.CharField(
         "Phrase de description",
         max_length=200,
-        blank=True,
+        error_messages={
+            "blank": "Veuillez renseigner ce champ",
+        },
         help_text='Exemple : "Je travaille à la collecte, l’indexation et l’analyse automatique '
         'de grands volumes de données."',
     )
